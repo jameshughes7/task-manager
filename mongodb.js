@@ -60,17 +60,42 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
     //     console.log(result.ops);
     // })
 
-    db.collection('tasks').findOne({_id: new ObjectID('5ccaee913f4c4a404c08e592')}, (error, task) => {
-        if (error) {
-            return console.log('Unable to fetch')
-        }
-        console.log(task);
-    })
+    // db.collection('tasks').findOne({_id: new ObjectID('5ccaee913f4c4a404c08e592')}, (error, task) => {
+    //     if (error) {
+    //         return console.log('Unable to fetch')
+    //     }
+    //     console.log(task);
+    // })
 
-    db.collection('tasks').find({completed: false}).toArray((error, tasks) => {
-        if (error) {
-            return console.log('Cannot find tasks')
+    // db.collection('tasks').find({completed: false}).toArray((error, tasks) => {
+    //     if (error) {
+    //         return console.log('Cannot find tasks')
+    //     }
+    //     console.log(tasks);
+    // })
+
+    // updateOne returns a promise
+    // db.collection('users').updateOne({
+    //     _id: new ObjectID('5ccae7cb45a8893b5b9821ff'),    
+    // }, {
+    //     $inc: {
+    //         age: -6
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    db.collection('tasks').updateMany({
+        completed: false
+    }, {
+        $set: {
+            completed: true
         }
-        console.log(tasks);
+    }).then((result) => {
+        console.log(result)
+    }).catch((error) => {
+        console.log(error)
     })
 })
