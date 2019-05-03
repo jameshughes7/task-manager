@@ -1,3 +1,5 @@
+// CRUD Create Read Update Delete
+
 // Server downloaded on machine
 // See it in /Users/hughej/mongodb-data
 // Command for initialising the database
@@ -87,15 +89,35 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
     //     console.log(error)
     // })
 
-    db.collection('tasks').updateMany({
-        completed: false
-    }, {
-        $set: {
-            completed: true
+    // db.collection('tasks').updateMany({
+    //     completed: false
+    // }, {
+    //     $set: {
+    //         completed: true
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    db.collection('tasks').deleteOne(
+        {
+            name: 'DrumKittutorial' 
         }
-    }).then((result) => {
+    ).then((result) => {
         console.log(result)
     }).catch((error) => {
         console.log(error)
     })
+
+    db.collection('users').deleteMany(
+            {
+                name: 'James'
+            },
+    ).then((result) => {
+            console.log(result)
+        }).catch((error) => {
+            console.log(error)
+        })
 })
