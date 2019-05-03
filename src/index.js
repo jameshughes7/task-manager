@@ -22,6 +22,28 @@ app.post('/users', (req, res) => {
     })
 })
 
+// Get all users
+app.get('/users', (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users)
+    }).catch((error) => {
+        res.status(500).send(error);
+    })
+})
+
+// Get a specific user
+app.get('/users/:id', (req, res) => {
+    const _id = req.params.id;
+    User.findById(_id).then((user) => {
+        if(!user) {
+            return res.status(404).send();
+        }
+        res.send(user);
+    }).catch((error) => {
+        res.status(404).send();
+    })
+})
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
     
