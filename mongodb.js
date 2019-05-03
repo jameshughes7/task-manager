@@ -23,6 +23,61 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName);
 
+    // CREATE
+
+    // db.collection('users').insertOne({
+    //     _id: id,
+    //     name: 'Wayne',
+    //     age: 40,
+    // }, (error, result) => {
+    //     if (error) {
+    //         return console.log('Unable to insert user')
+    //     }
+
+    //     console.log(result.ops);
+    // })
+
+    // db.collection('users').insertMany([
+    //     {
+    //         name: 'Caryn',
+    //         age: 39
+    //     },
+    //     {
+    //         name: 'James',
+    //         age: 36
+    //     }
+    // ], (error, result) => {
+    //     if (error) {
+    //         return console.log('Unable to insert documents!')
+    //     }
+
+    //     console.log(result.ops)
+    // })
+
+    // db.collection('tasks').insertMany([
+    //     {
+    //         James: 'empty bin',
+    //         James: 'make bed'
+    //     },
+    //     {
+    //         Caryn: 'order groceries',
+    //         Caryn: 'Make dinner'
+    //     },
+    //     {
+    //         Gabriel: 'eat breakfast',
+    //         Gabriel: 'put on cape and shield'
+    //     }
+    // ], (error, result) => {
+    //     if (error) {
+    //         return console.log('Unable to insert tasks')
+    //     }
+
+    //     console.log(result.ops);
+    // })
+// })
+
+    // READ
+
     // db.collection('users').findOne({_id: new ObjectID("5ccae7cb45a8893b5b9821ff") }, (error, user) => {
     //     if (error) {
     //         return console.log('Unable to fetch')
@@ -76,6 +131,8 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
     //     console.log(tasks);
     // })
 
+    // UPDATE
+
     // updateOne returns a promise
     // db.collection('users').updateOne({
     //     _id: new ObjectID('5ccae7cb45a8893b5b9821ff'),    
@@ -100,6 +157,8 @@ MongoClient.connect(connectionUrl, { useNewUrlParser: true }, (error, client) =>
     // }).catch((error) => {
     //     console.log(error)
     // })
+
+    // DELETE
 
     db.collection('tasks').deleteOne(
         {
