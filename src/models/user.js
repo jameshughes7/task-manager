@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-// Defining model
+// Defining the User model
 const User = mongoose.model('User', {
     name: {
         type: String,
