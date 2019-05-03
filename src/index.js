@@ -12,6 +12,7 @@ const port = process.env.PORT || 3000;
 // in our request handlers
 app.use(express.json());
 
+// Post a user
 app.post('/users', (req, res) => {
     const user = new User(req.body);
 
@@ -34,6 +35,7 @@ app.get('/users', (req, res) => {
 // Get a specific user
 app.get('/users/:id', (req, res) => {
     const _id = req.params.id;
+    
     User.findById(_id).then((user) => {
         if(!user) {
             return res.status(404).send();
@@ -44,6 +46,30 @@ app.get('/users/:id', (req, res) => {
     })
 })
 
+// Get all tasks
+app.get('/tasks', (req, res) => {
+    Task.find({}).then((tasks) => {
+        res.send(tasks);
+    }).catch((error) => {
+        res.status(500).send(error);
+    })
+})
+
+// Get a specific task
+app.get('/tasks/:id', (req, res) => {
+    const taskId = req.params.id;
+    
+    Task.findById(taskId).then((task) => {
+        if (!task) {
+            return res.status(404).send();
+        }
+        res.send(task)
+    }).catch((error) => {
+        res.status(404).send(error);
+    })
+})
+
+// Post a task
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
     
