@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // Creating Schema so that we can take advantage of middleware 
 const userSchema = new mongoose.Schema({
@@ -40,9 +41,28 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Age must be a positive number')
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
+userSchema.methods.generateAuthToken = async function () {
+    const user = this;
+    const token = jwt.sign({ _id: user._id.toString() }, 'thisismyname');
+
+    user.tokens = user.tokens.concat({ 
+        token: token 
+    });
+    await user.save();
+
+    return token;
+}
+
+// Confirming user by email and confirming if password is match
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({
         email: email
