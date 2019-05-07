@@ -1,8 +1,9 @@
 const express = require ('express');
 const User = require('../models/user');
+const auth = require('../middleware/auth');
 const router = new express.Router();
 
-// Post a user
+// SignUp
 router.post('/users', async (req, res) => {
     const user = new User(req.body);
 
@@ -18,6 +19,7 @@ router.post('/users', async (req, res) => {
     }
 })
 
+// Login
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
@@ -32,14 +34,34 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
-// Get all users
-router.get('/users', async (req, res) => {
+// Logout
+router.post('/users/logout', auth, async (req, res) => {
     try {
-        const users = await User.find({});
-        res.send(users);
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token;
+        })
+        await req.user.save();
+
+        res.send();
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send();
     }
+})
+
+// Logout all sessions
+router.post('/users/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = [];
+        await req.user.save();
+        res.send();
+    } catch (error) {
+        res.status(500).send();
+    }
+})
+
+// Get all users
+router.get('/users/me', auth, async (req, res) => {
+    res.send(req.user);
 })
 
 // Get a specific user
