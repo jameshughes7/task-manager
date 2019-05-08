@@ -50,6 +50,16 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+// Setting up a virtual property
+// Doesn't exist in the database
+// Relationship between 2 entities (between user and task in this case)
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+
 userSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
@@ -98,8 +108,6 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8);
     }
-    
-    
     next();
 })
 
